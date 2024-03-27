@@ -28,7 +28,6 @@ const useUserLocation = (): UserLocation | null => {
 
     getUserLocation();
 
-    // Cleanup function to clear any pending geolocation requests when the component unmounts
     return () => {
       setUserLocation(null);
     };
