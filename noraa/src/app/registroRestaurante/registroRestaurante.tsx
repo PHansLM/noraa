@@ -239,7 +239,7 @@ const RegistroRestaurante: React.FC = () => {
                 <div className="fixed bottom-0 left-0 w-full bg-green-500 flex justify-center items-center p-4">
                     <div>
                         <h1 className="text-2xl font-bold text-white">¡Restaurante registrado exitosamente!</h1>
-                        <p className="text-white">{`Cerrando automáticamente en ${contador} segundos`}</p>
+                        <p className="text-white">{`Cerrando la página automáticamente en ${contador} segundos`}</p>
                     </div>
                 </div>
             )}
