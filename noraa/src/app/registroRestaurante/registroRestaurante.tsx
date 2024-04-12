@@ -22,6 +22,7 @@ const RegistroRestaurante: React.FC = () => {
     const [latitud, setLatitud] = useState(0);
     const [longitud, setLongitud] = useState(0);  
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [intentoSumbit, setIntentoSumbit] = useState(false);
 
     const { direccion: direccionGeocoder } = useGeocoder({ lat: latitud, lng: longitud});
 
@@ -76,6 +77,10 @@ const RegistroRestaurante: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        if (!nombre || !correo || !telefono || !direccion || !horaEntrada || !horaSalida || !icono) {
+            setIntentoSumbit(true);
+            return;
+        }
         try {
             const response = await fetch('http://localhost:5000/restaurantes-registrar', {
                 method: 'post',
@@ -112,6 +117,18 @@ const RegistroRestaurante: React.FC = () => {
     const closeModal = () => {
         setModalIsOpen(false);
     };
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [buttonText, setButtonText] = useState<string>("Seleccionar Imagen");
+    const [buttonColor, setButtonColor] = useState<string>("bg-orange-400");
+
+    const handleFileUpload = (files: FileList | null) => {
+        if (files && files.length > 0) {
+            setSelectedFile(files[0]);
+            setButtonText("Imagen Seleccionada");
+            setButtonColor("bg-green-400");
+            // Aca se hace todo porsia cuando subes el archivo
+        }
+    };
 
     return (
         <div className={`min-h-screen ${registroExitoso ? 'bg-green-500' : 'bg-orange-700'} text-gray-900 flex justify-center`}>
@@ -126,22 +143,31 @@ const RegistroRestaurante: React.FC = () => {
                                 <div className="mx-auto max-w-xs">
                                     <h1 className="font-semibold mt-2">Nombre del negocio</h1>
                                     <input
-                                        className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-2"
-                                        type="text" placeholder="Ingresa el nombre de tu negocio"
+                                        className={`w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-2 ${intentoSumbit && !nombre && 'border-red-500'}`}
+                                        type="text"
+                                        placeholder="Ingresa el nombre de tu negocio"
                                         value={nombre}
-                                        onChange={(e) => setNombre(e.target.value)} />
+                                        onChange={(e) => setNombre(e.target.value)}
+                                    />
+                                    {intentoSumbit && !nombre && <p className="text-red-500">Campo obligatorio</p>}
                                     <h1 className="font-semibold mt-2">Correo electrónico</h1>
                                     <input
-                                        className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-2"
-                                        type="email" placeholder="Ej: ejemplo@gmail.com"
+                                        className={`w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-2 ${intentoSumbit && !correo && 'border-red-500'}`}
+                                        type="email"
+                                        placeholder="Ej: ejemplo@gmail.com"
                                         value={correo}
-                                        onChange={(e) => setCorreo(e.target.value)} />
+                                        onChange={(e) => setCorreo(e.target.value)}
+                                    />
+                                    {intentoSumbit && !correo && <p className="text-red-500">Campo obligatorio</p>}
                                     <h1 className="font-semibold mt-2">Telefono</h1>
                                     <input
-                                        className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-2"
-                                        type="number" placeholder="Ej: 77777777"
+                                        className={`w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-2 ${intentoSumbit && !telefono && 'border-red-500'}`}
+                                        type="number"
+                                        placeholder="Ej: 77777777"
                                         value={telefono}
-                                        onChange={(e) => setTelefono(e.target.value)} />
+                                        onChange={(e) => setTelefono(e.target.value)}
+                                    />
+                                    {intentoSumbit && !telefono && <p className="text-red-500">Campo obligatorio</p>}
                                     <h1 className="font-semibold mt-2">Direccion</h1>
                                     <button
                                         className="mt-3 tracking-wide font-semibold bg-orange-400 text-white w-full py-4 rounded-3xl hover:bg-orange-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
@@ -153,26 +179,49 @@ const RegistroRestaurante: React.FC = () => {
                                         </svg>
                                         <span>{direccion}</span>
                                     </button>
+                                    <div className="mt-5">
+                                       <h1 className="font-semibold">Subir Logo</h1>
+                                       <label htmlFor="logoInput" className={`ml-20 mt-2 cursor-pointer inline-block ${buttonColor} text-white px-4 py-2 rounded-xl transition duration-300 ease-in-out hover:bg-orange-500`}>
+                                             {buttonText}
+                                       </label>
+                                       <input
+                                          id="logoInput"
+                                          type="file"
+                                          accept="image/*"
+                                          onChange={(e) => handleFileUpload(e.target.files)}
+                                          className="hidden"
+                                        />
+                                        {selectedFile && (
+                                            <p className="mt-2">{selectedFile.name}</p>
+                                        )}
+                                       </div>
+                                   
                                     <div className="flex mt-5 font-semibold">
                                         <h1>Hora de entrada</h1>
                                         <h1 className="ml-10">Hora de salida</h1>
                                     </div>
                                     <div className="flex mt-2">
                                         <input
-                                            className="w-1/2 px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                            type="time" placeholder="Hora de entrada"
+                                            className={`w-1/2 px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${intentoSumbit && !horaEntrada && 'border-red-500'}`}
+                                            type="time"
+                                            placeholder="Hora de entrada"
                                             value={horaEntrada}
-                                            onChange={(e) => setHoraEntrada(e.target.value)} />
+                                            onChange={(e) => setHoraEntrada(e.target.value)}
+                                        />
+                                        {intentoSumbit && !horaEntrada && <p className="text-red-500">Campo obligatorio</p>}
                                         <input
-                                            className="w-1/2 ml-2 px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                            type="time" placeholder="Hora de salida"
+                                            className={`w-1/2 ml-2 px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${intentoSumbit && !horaSalida && 'border-red-500'}`}
+                                            type="time"
+                                            placeholder="Hora de salida"
                                             value={horaSalida}
-                                            onChange={(e) => setHoraSalida(e.target.value)} />
+                                            onChange={(e) => setHoraSalida(e.target.value)}
+                                        />
+                                        {intentoSumbit && !horaSalida && <p className="text-red-500">Campo obligatorio</p>}
                                     </div>
                                     <div className="mt-5">
                                         <h1 className="font-semibold">Icono en el mapa</h1>
                                         <select
-                                            className="mt-3 w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                            className={`mt-3 w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${intentoSumbit && !icono && 'border-red-500'}`}
                                             value={icono}
                                             onChange={(e) => setIcono(e.target.value)}
                                         >
@@ -193,6 +242,7 @@ const RegistroRestaurante: React.FC = () => {
                                             <option value="broaster">Pollo Broaster</option>
                                             <option value="torta">Torta</option>
                                         </select>
+                                        {intentoSumbit && !icono && <p className="text-red-500">Campo obligatorio</p>}
                                     </div>
                                     <button
                                         className="text-white mt-5 tracking-wide font-semibold bg-orange-400 text-white-500 w-full py-4 rounded-lg hover:bg-orange-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
