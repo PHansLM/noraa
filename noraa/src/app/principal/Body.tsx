@@ -6,6 +6,7 @@ import Geocoder from './Geocoder';
 import Carrusel from '../carrusel';
 import PiePagina from './piePagina'
 import useGeocoder from './Geocoder';
+import DashboardCercanos from './dashboardCercanos';
 
 const Body = () => {
     const [showMap, setShowMap] = useState(false);
@@ -37,6 +38,7 @@ const Body = () => {
                     <h1 className="lg:font-bold lg:ml-8 lg:mt-11 xl:text-2xl font-bold mt-5 ml-3 text-lg">¿Qué buscas hoy?</h1> 
                     <h1> <Carrusel></Carrusel></h1>
                     <h1 className="lg:font-bold lg:ml-8 lg:mt-11 xl:text-2xl font-bold mt-5 ml-3 text-lg">Negocios cercanos a ti</h1> 
+                    <DashboardCercanos centro={[(userLocationLat!=null)?userLocationLat:0.0, (userLocationLng!=null)?userLocationLng:0.0]} />
                     <PiePagina />
 
 
