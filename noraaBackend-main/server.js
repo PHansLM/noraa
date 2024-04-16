@@ -47,6 +47,25 @@ app.get('/restaurantes-cercanos', async (req, res) => {
     }
 });
 
+app.get('/restaurantes-cercanos-limitados', async (req, res) => {
+    try {
+        const { latitud, longitud, limite } = req.query;
+
+        if (!latitud || !longitud || limite)  {
+            return res.status(400).json({ error: 'Los parámetros de limite, latitud y longitud son requeridos' });
+        }
+
+        const consulta = "SELECT * FROM restaurante WHERE ABS(ABS(restaurante.coordenada_latitud) - ABS("+longitud+"))  <= 0.008 AND ABS(ABS(restaurante.coordenada_longitud) - ABS("+latitud+")) <= 0.008 LIMIT "+limite+"; ";
+
+        const resultado = await client.query(consulta);
+
+        res.json(resultado.rows);
+    } catch (error) {
+        console.error('Error al obtener restaurantes cercanos:', error);
+        res.status(500).json({ error: 'Error al obtener restaurantes cercanos' });
+    }
+});
+
 app.use(express.json());
 
 app.post('/restaurantes-registrar', async (req, res) => {
