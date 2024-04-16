@@ -21,6 +21,7 @@ const RegistroRestaurante: React.FC = () => {
     const [icono, setIcono] = useState('');
     const [latitud, setLatitud] = useState(0);
     const [longitud, setLongitud] = useState(0);  
+    const [imagen, setImagen] = useState<string>('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [intentoSumbit, setIntentoSumbit] = useState(false);
 
@@ -77,7 +78,7 @@ const RegistroRestaurante: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (!nombre || !correo || !telefono || !direccion || !horaEntrada || !horaSalida || !icono) {
+        if (!nombre || !correo || !telefono || !direccion || !horaEntrada || !horaSalida || !icono || !imagen) {
             setIntentoSumbit(true);
             return;
         }
@@ -94,8 +95,9 @@ const RegistroRestaurante: React.FC = () => {
                     horario_atencion: `${horaEntrada}-${horaSalida}`,
                     coordenada_longitud: longitud,
                     coordenada_latitud: latitud,
-                    valoracion: 2.0,
-                    icono_base: icono
+                    valoracion: 0.0,
+                    icono_base: icono,
+                    imagen: imagen // Envía la imagen base64 al backend
                 })
             });
             if (response.ok) {
@@ -109,7 +111,8 @@ const RegistroRestaurante: React.FC = () => {
             console.error('Error al registrar el restaurante:', error);   
         }
     };
-
+    
+    
     const openModal = () => {
         setModalIsOpen(true);
     };
@@ -123,10 +126,19 @@ const RegistroRestaurante: React.FC = () => {
 
     const handleFileUpload = (files: FileList | null) => {
         if (files && files.length > 0) {
-            setSelectedFile(files[0]);
-            setButtonText("Imagen Seleccionada");
-            setButtonColor("bg-green-400");
-            // Aca se hace todo porsia cuando subes el archivo
+            const file = files[0];
+            const reader = new FileReader();
+            setSelectedFile(file);
+            reader.onload = (event) => {
+                if (event.target) {
+                    const fileContent = event.target.result as string; // Contenido del archivo en formato base64
+                    setImagen(fileContent); // Almacena la imagen como base64 en lugar de un array de bytes
+                    setButtonText("Imagen Seleccionada");
+                    setButtonColor("bg-green-400");
+                    // Ahora puedes enviar la imagen base64 al backend
+                }
+            };
+            reader.readAsDataURL(file);
         }
     };
 
