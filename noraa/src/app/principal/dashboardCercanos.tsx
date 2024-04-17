@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ImgConstructor from "./ImgConstructor";
+//import ImgConstructor from "./ImgConstructor";
 
 interface MapPanelProps {
     centro: [number, number];
@@ -28,7 +28,8 @@ const DashboardCercanos = ({ centro }: MapPanelProps) => {
             {restaurantesC.map((restaurante) => (
                 <div key={restaurante.id_restaurante} className="" style={{ height: '35%', width: '35%' }}>
                     {restaurante.imagen && (
-                        <img src={ImgConstructor({ imgBytea: restaurante.imagen })} style={{ maxWidth: '100%', maxHeight: '100%' }} alt="imagen restaurante" />
+                        //<img src={ImgConstructor({ imgBytea: restaurante.imagen })} style={{ maxWidth: '100%', maxHeight: '100%' }} alt="imagen restaurante" />
+                        <div></div>
                     )}
                     <h3 className="font-bold">{restaurante.nombre_restaurante}</h3>
                     <p>{restaurante.horario_atencion}</p>
