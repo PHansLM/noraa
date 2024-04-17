@@ -68,7 +68,12 @@ useEffect(() => {
                 popupAnchor: [0, -16],
               })}
             >
-              <Popup>{restaurante.nombre_restaurante}</Popup>
+              <Popup>
+                <div>
+                    <h3>{restaurante.nombre_restaurante }</h3>
+                    <ImgConstructor imgBytea={restaurante.imagen} height='80px' width='80px'/>
+                </div>
+              </Popup>
             </Marker>
           ))}
 
