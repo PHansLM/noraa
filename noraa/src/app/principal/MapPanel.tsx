@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Circle, Marker,Popup, Tooltip } from "react-leaflet";
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import ImgConstructor from './ImgConstructor';
 
 interface MapPanelProps {
   centro: [number, number];
