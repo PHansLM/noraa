@@ -28,7 +28,7 @@ const DashboardCercanos = ({ centro }: MapPanelProps) => {
     {restaurantesC.map((restaurante) => (
         <div key={restaurante.id_restaurante} className="card" style={{ height: 'auto', width: '45%', margin: '2%', padding: '10px', border: '1px solid black', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
             {restaurante.imagen && (
-                        <ImgConstructor imgBytea={restaurante.imagen} />
+                        <ImgConstructor imgBytea={restaurante.imagen} height="100px" width="100px"/>
             )}
             <div style={{ marginTop: 'auto' }}>
                 <h3 className="font-bold">{restaurante.nombre_restaurante}</h3>
