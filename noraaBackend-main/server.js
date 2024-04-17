@@ -66,17 +66,19 @@ app.get('/restaurantes-cercanos-limitados', async (req, res) => {
     }
 });
 
-app.use(express.json());
-
+app.use(express.json({ limit: '10mb' }));
 app.post('/restaurantes-registrar', async (req, res) => {
     try {
-        const { nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, icono_base } = req.body;
-        if (!nombre_restaurante || !direccion || !telefono || !horario_atencion || !coordenada_longitud || !coordenada_latitud || !valoracion || !icono_base) {
+        const { nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, icono_base, imagen } = req.body;
+        if (!nombre_restaurante || !direccion || !telefono || !horario_atencion || !coordenada_longitud || !coordenada_latitud || !valoracion || !icono_base || !imagen) {
             return res.status(400).json({ error: 'Todos los campos son requeridos' });
         }
         const consulta = `INSERT INTO restaurante (nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, imagen, icono_base) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`;
         
-        const resultado = await client.query(consulta, [nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, 'imagen_generica', icono_base]);
+        // Convertir la imagen base64 a formato de bytes
+        const byteArray = Buffer.from(imagen.split(',')[1], 'base64');
+
+        const resultado = await client.query(consulta, [nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, byteArray, icono_base]);
 
         res.json(resultado.rows[0]);
     } catch (error) {
