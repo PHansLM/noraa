@@ -77,7 +77,7 @@ const registroAvistamiento: React.FC = () => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:5000/restaurantes-registrar', {
+            const response = await fetch('http://localhost:5000/avistamientos-registrar', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
