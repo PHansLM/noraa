@@ -87,6 +87,25 @@ app.post('/restaurantes-registrar', async (req, res) => {
     }
 });
 
+app.post('/avistamientos-registrar', async (req, res) => {
+    try {
+        const { nombre_restaurante, foto, direccion, id_usuario_fk, coordenada_longitud, coordenada_latitud, icono } = req.body;
+        if (!nombre_restaurante || !foto || !direccion || !id_usuario_fk || !coordenada_longitud || !coordenada_latitud || !icono) {
+            return res.status(400).json({ error: 'Todos los campos son requeridos' });
+        }
+        const consulta = `INSERT INTO registro_avistamiento (nombre_restaurante, foto, direccion, id_usuario_fk, coordenada_longitud, coordenada_latitud, icono) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+
+        // Convertir la foto base64 a formato de bytes
+        const byteArray = Buffer.from(foto.split(',')[1], 'base64');
+
+        const resultado = await client.query(consulta, [nombre_restaurante, byteArray, direccion, id_usuario_fk, coordenada_longitud, coordenada_latitud, icono]);
+
+        res.json(resultado.rows[0]);
+    } catch (error) {
+        console.error('Error al agregar un nuevo avistamiento:', error);
+        res.status(500).json({ error: 'Error al agregar un nuevo avistamiento' });
+    }
+});
 
 
 app.listen(PORT, () => {
