@@ -180,17 +180,6 @@ const RegistroRestaurante: React.FC = () => {
                                         onChange={(e) => setTelefono(e.target.value)}
                                     />
                                     {intentoSumbit && !telefono && <p className="text-red-500">Campo obligatorio</p>}
-                                    <h1 className="font-semibold mt-2">Direccion</h1>
-                                    <button
-                                        className="mt-3 tracking-wide font-semibold bg-orange-400 text-white w-full py-4 rounded-3xl hover:bg-orange-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                                        onClick={openModal}
-                                    >
-                                        <svg className="ml-5 w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-                                            <path fill="#ffffff" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                        </svg>
-                                        <span>{direccion}</span>
-                                    </button>
                                     <div className="mt-5">
                                        <h1 className="font-semibold">Subir Logo</h1>
                                        <label htmlFor="logoInput" className={`ml-20 mt-2 cursor-pointer inline-block ${buttonColor} text-white px-4 py-2 rounded-xl transition duration-300 ease-in-out hover:bg-orange-500`}>
@@ -229,7 +218,7 @@ const RegistroRestaurante: React.FC = () => {
                                             onChange={(e) => setHoraSalida(e.target.value)}
                                         />
                                         {intentoSumbit && !horaSalida && <p className="text-red-500">Campo obligatorio</p>}
-                                    </div>
+                                    </div>  
                                     <div className="mt-5">
                                         <h1 className="font-semibold">Icono en el mapa</h1>
                                         <select
@@ -256,6 +245,17 @@ const RegistroRestaurante: React.FC = () => {
                                         </select>
                                         {intentoSumbit && !icono && <p className="text-red-500">Campo obligatorio</p>}
                                     </div>
+                                    <h1 className="font-semibold mt-2">Direccion</h1>
+                                    <button
+                                        className="mt-3 tracking-wide font-semibold bg-orange-400 text-white w-full py-4 rounded-3xl hover:bg-orange-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                                        onClick={openModal}
+                                    >
+                                        <svg className="ml-5 w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                            <path fill="#ffffff" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                        <span>{direccion}</span>
+                                    </button>
                                     <button
                                         className="text-white mt-5 tracking-wide font-semibold bg-orange-400 text-white-500 w-full py-4 rounded-lg hover:bg-orange-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                         type="submit"

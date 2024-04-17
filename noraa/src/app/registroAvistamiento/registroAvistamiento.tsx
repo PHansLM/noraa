@@ -18,6 +18,7 @@ const registroAvistamiento: React.FC = () => {
     const [imagen, setImagen] = useState<string>('');
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [intentoSumbit, setIntentoSumbit] = useState(false);
+    const [icono, setIcono] = useState('');
 
     const { direccion: direccionGeocoder } = useGeocoder({ lat: latitud, lng: longitud});
 
@@ -88,6 +89,7 @@ const registroAvistamiento: React.FC = () => {
                     coordenada_longitud: longitud,
                     coordenada_latitud: latitud,
                     valoracion: 0.0,
+                    iconoBase: icono,
                     imagen: imagen // Envía la imagen base64 al backend
                 })
             });
@@ -184,6 +186,17 @@ const registroAvistamiento: React.FC = () => {
                                             <p className="mt-2">{selectedFile.name}</p>
                                         )}
                                        </div>
+                                       <div className="mt-5">
+                                        <h1 className="font-semibold">Icono en el mapa</h1>
+                                        <select
+                                            className={`mt-3 w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 text-sm focus:outline-none focus:border-gray-400 focus:bg-white ${intentoSumbit && !icono && 'border-red-500'}`}
+                                            value={icono}
+                                            onChange={(e) => setIcono(e.target.value)}
+                                        >
+                                            <option value="pollo">Avistamiento</option>
+                                        </select>
+                                        {intentoSumbit && !icono && <p className="text-red-500">Campo obligatorio</p>}
+                                    </div>
                                     <div className="flex mt-2">
                                     </div>
                                     <button
