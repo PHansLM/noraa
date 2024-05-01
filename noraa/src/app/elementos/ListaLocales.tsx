@@ -1,4 +1,4 @@
-
+"use client";
 import React, { useEffect, useState } from 'react';
 import ImgConstructor from "../utiles/multimedia/ImgConstructor";
 import { cargarRestaurantesConEtiqueta } from "../utiles/consultores/restaurantes";
