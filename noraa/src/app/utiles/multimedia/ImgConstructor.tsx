@@ -1,22 +1,27 @@
+// ImgConstructor.tsx
+
 import React from 'react';
 
 interface ImgConstructorProps {
     imgBytea: string;
-    width?: string; // Anchura deseada de la imagen
-    height?: string; // Altura deseada de la imagen
+    style?: React.CSSProperties;
+    className?: string;
 }
 
-const ImgConstructor: React.FC<ImgConstructorProps> = ({ imgBytea, width, height}) => {
+const ImgConstructor: React.FC<ImgConstructorProps> = ({ imgBytea, style, className }) => {
     const construirUrlImagen = (imgBytea: string) => {
-        // Convertir cadena base64 a un ArrayBuffer
         const arrayBuffer = Buffer.from(imgBytea, 'base64').buffer;
-        // Crear un Blob a partir del ArrayBuffer
         const blob = new Blob([arrayBuffer], { type: 'image/jpeg' });
-        // Crear una URL para el Blob
         return URL.createObjectURL(blob);
     };
 
-    return <img src={construirUrlImagen(imgBytea)} style={{ width: width, height: height }} />;
+    return (
+        <img
+            src={construirUrlImagen(imgBytea)}
+            style={{ ...style, maxWidth: '135px', maxHeight: '135px' }}
+            className={className}
+        />
+    );
 };
 
 export default ImgConstructor;
