@@ -1,11 +1,15 @@
-"use client";
 import React from 'react';
-import Landing from './principal/Landing';
+import Header from '../principal/Header';
+import Body from '../principal/Body';
+
+
+
 const Page = () => {
 
   return ( 
     <div className="overflow-hidden">
-        <Landing></Landing>
+        <Header></Header>
+        <Body></Body>
     </div>
   );
 };
