@@ -7,7 +7,7 @@ const Page = () => {
   return ( 
     <div className="overflow-hidden">
       <Header />
-      <ListaLocales etiqueta="restaurante"/>
+      <ListaLocales etiqueta=""/>
       <PiePagina />
     </div>
   );
