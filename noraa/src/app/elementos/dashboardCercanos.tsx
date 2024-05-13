@@ -51,8 +51,6 @@ const DashboardCercanos = ({ centro }: MapPanelProps) => {
 
             ))}
         </div>
-        
-        
     );
 };
 
