@@ -20,7 +20,9 @@ const Header = () => {
       <div className="hidden sm:flex items-center gap-4 md:gap-16 mr-2 mt-1 pr-4">
         <Link href="historial" className="hover:text-orange-500 transition-transform duration-300 transform hover:scale-105" >Historial</Link>
         <Link href="favoritos" className="hover:text-orange-500 transition-transform duration-300 transform hover:scale-105">Favoritos</Link>
-        <Link href="perfil" className="hover:text-orange-500 transition-transform duration-300 transform hover:scale-105">Perfil</Link>
+        <a href="/login">
+          <button type="button" className="hover:text-orange-500 transition-transform duration-300 transform hover:scale-105">Iniciar sesion</button>
+        </a>
       </div>
       <div className="flex-grow sm:hidden" />
       <div className="flex items-center justify-end sm:hidden ml-auto">
