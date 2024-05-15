@@ -62,6 +62,21 @@ app.get('/etiquetas', async (req, res) => {
     }
 });
 
+app.get('/loggeo-usuario', async (req, res) => {
+    try {
+        const { correo, password } = req.query;
+        if (!correo || !password) {
+            return res.status(400).json({ error: 'Los parámetros de inicio de sesion son requeridos' });
+        }
+        const consulta = `SELECT * FROM "public"."usuario" WHERE correo_electronico = '`+correo+`' AND contrasena = '`+password+`'`;
+        const resultado = await pool.query(consulta);
+        res.json(resultado.rows);
+    } catch (error) {
+        console.error('Error al obtener las etiquetas:', error);
+        res.status(500).json({ error: 'Error al obtener etiquetas' });
+    }
+});
+
 app.get('/restaurantes', async (req, res) => {
     try {
         const consulta = 'SELECT * FROM "public"."restaurante"';
@@ -77,7 +92,7 @@ app.get('/restaurantes-filtrar', async (req, res) => {
     try {
         const { filtro } = req.query;
         if (!filtro) {
-            return res.status(400).json({ error: 'Los parámetros de latitud y longitud son requeridos' });
+            return res.status(400).json({ error: 'Los parámetros de filtrado son requeridos' });
         }
         const consulta = 'SELECT * FROM "public"."restaurante" WHERE '+filtro+';';
         const resultado = await pool.query(consulta);
@@ -193,6 +208,23 @@ app.post('/avistamientos-registrar', async (req, res) => {
     } catch (error) {
         console.error('Error al agregar un nuevo avistamiento:', error);
         res.status(500).json({ error: 'Error al agregar un nuevo avistamiento' });
+    }
+});
+
+app.post('/usuario-registrar', async (req, res) => {
+    try {
+        const { nombre, apellido, telefono, correo, password} = req.body;
+        if (!nombre || !apellido || !telefono || !correo || !password) {
+            return res.status(400).json({ error: 'Todos los campos son requeridos' });
+        }
+        const consulta = `INSERT INTO usuario (nombre, apellido, telefono, correo_electronico, contrasena) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+
+        const resultado = await pool.query(consulta, [nombre, apellido, telefono, correo, password]);
+
+        res.json(resultado.rows[0]);
+    } catch (error) {
+        console.error('Error al agregar un nuevo usuario:', error);
+        res.status(500).json({ error: 'Error al agregar un nuevo usuario' });
     }
 });
 

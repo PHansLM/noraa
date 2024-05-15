@@ -1,4 +1,56 @@
+"use client";
+//import Spline from '@splinetool/react-spline';
+import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import useUserLocation from '../utiles/geolocalizadores/useUserLocation';
+import 'leaflet/dist/leaflet.css';
+import useGeocoder from '../utiles/geolocalizadores/Geocoder';
+import TagPopup from '../elementos/TagPopUp';
+import { loggearUsuario } from '../utiles/consultores/usuarios';
+
 const Page: React.FC = () => {
+    const [correo, setCorreo] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [intentoSumbit, setIntentoSumbit] = useState(false);
+
+    const [inicioExitoso, setInicioExitoso] = useState(false);
+    const [contador, setContador] = useState(10);
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (inicioExitoso) {
+            interval = setInterval(() => {
+                setContador((prevContador) => prevContador - 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [inicioExitoso]);
+
+    useEffect(() => {
+        if (contador === 0) {
+            window.close();
+        }
+    }, [contador]);
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!correo || !password) {
+            setIntentoSumbit(true);
+            return;
+        }
+        loggearUsuario(correo ,password)
+        .then(data => {
+          if(data.length==0){
+            console.error('Correo o contrasena incorrecta');
+          }else{
+            console.log('loggeado');
+            setInicioExitoso(true);
+          }
+        })
+    };
+
     return (
         <section className="bg-gray-50 bg-cover bg-center" style={{ backgroundImage: "url('fondoLogin.jpg')" }}>
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -7,14 +59,21 @@ const Page: React.FC = () => {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                             Inicio de sesion
                         </h1>
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 ">Correo electronico </label>
-                                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-400 focus:border-orange-400 block w-full p-2.5" placeholder="usuario@email.com" required />
+                                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-400 focus:border-orange-400 block w-full p-2.5" placeholder="usuario@email.com" 
+                                        value={correo}
+                                        onChange={(e) => setCorreo(e.target.value)}
+                                        required 
+                                />
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-400 focus:border-orange-400 block w-full p-2.5" required />
+                                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-400 focus:border-orange-400 block w-full p-2.5" 
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required 
+                                />
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
@@ -34,6 +93,14 @@ const Page: React.FC = () => {
                         </form>
                     </div>
                 </div>
+                {inicioExitoso && (
+                    <div className="fixed bottom-0 left-0 w-full bg-green-500 flex justify-center items-center p-4">
+                        <div>
+                            <h1 className="text-2xl font-bold text-white">¡Sesion iniciada correctamente!</h1>
+                            <p className="text-white">{`Cerrando la página automáticamente en ${contador} segundos`}</p>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     );
