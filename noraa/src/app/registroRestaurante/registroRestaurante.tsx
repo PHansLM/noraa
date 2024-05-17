@@ -317,7 +317,7 @@ const RegistroRestaurante: React.FC = () => {
                 </div>
             </div>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={{ overlay: { zIndex: 1000, backgroundColor: 'rgba(0, 0, 0, 0.5)' }, content: { position: 'absolute', top: '0', left: '0', right: '0', bottom: '0', border: 'none', background: 'transparent', padding: '0', display: 'flex', justifyContent: 'center', alignItems: 'center' } }}>
-                <div style={{ position: 'relative', width: '100%', height: '100%', zIndex: '1000' }}>
+                <div style={{ position: 'relative', width: '80%', height: '80%', zIndex: '1000' }}>
                     <h1 style={{ position: 'absolute', top: '10px', left: '10px' }}>Latitud: {latitud}</h1>
                     <h1 style={{ position: 'absolute', top: '40px', left: '10px' }}>Longitud: {longitud}</h1>
                     <button 

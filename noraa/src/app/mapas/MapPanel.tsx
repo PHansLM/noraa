@@ -42,8 +42,8 @@ interface MapPanelProps {
 
   return (
     <div>
-      <div style={{ height: '70vh', width: '100%' }}>
-        <MapContainer center={centro} zoom={16} minZoom={10} maxZoom={20} maxBounds={[[-90, -180], [90, 180]]} style={{ height: '90%', width: '100%' }}>
+      <div style={{ height: '100vh', width: '100%' }}>
+        <MapContainer center={centro} zoom={16} minZoom={10} maxZoom={20} maxBounds={[[-90, -180], [90, 180]]} style={{ height: '100%', width: '100%' }}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -71,7 +71,6 @@ interface MapPanelProps {
               <Popup>
                 <div>
                     <h3>{restaurante.nombre_restaurante }</h3>
-                    <ImgConstructor imgBytea={restaurante.imagen} height='80px' width='80px'/>
                 </div>
               </Popup>
             </Marker>
@@ -92,7 +91,6 @@ interface MapPanelProps {
               <Popup>
                 <div>
                     <h3>{avistamiento.nombre_restaurante }</h3>
-                    <ImgConstructor imgBytea={avistamiento.foto} height='80px' width='80px'/>
                 </div>
               </Popup>
             </Marker>
