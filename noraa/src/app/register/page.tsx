@@ -13,7 +13,7 @@ const Page: React.FC = () => {
     const [intentoSumbit, setIntentoSumbit] = useState(false);
     const [registroExitoso, setRegistroExitoso] = useState(false);
     const [contador, setContador] = useState(10);
-    const [registroError, setRegistroError] = useState<string | null>(null);
+
     const [hasUpperCase, setHasUpperCase] = useState(false);
     const [hasNumber, setHasNumber] = useState(false);
     const [passwordLength, setPasswordLength] = useState(false);
@@ -68,12 +68,10 @@ const Page: React.FC = () => {
                 console.log('Usuario registrado exitosamente');
                 setRegistroExitoso(true);
             } else {
-                const errorMessage = await response.text(); // Obtener mensaje de error del servidor
-                setRegistroError(errorMessage); // Mostrar el error al usuario
+                console.error('Error al registrar al usuario:', response.statusText);
             }
         } catch (error) {
             console.error('Error al registrar al usuario:', error);
-            setRegistroError('Error al registrar al usuario. Por favor, inténtalo de nuevo.'); // Mostrar error genérico
         }
     };
 
@@ -197,13 +195,13 @@ const Page: React.FC = () => {
                                     onChange={handlePasswordChange}
                                     required
                                 />
-                                <p className={text-sm mt-1 ${hasUpperCase ? 'text-green-500' : 'text-red-500'}}>
+                                <p className={`text-sm mt-1 ${hasUpperCase ? 'text-green-500' : 'text-red-500'}`}>
                                     {hasUpperCase ? '✓' : '✗'} La contraseña debe tener al menos una mayúscula
                                 </p>
-                                <p className={text-sm mt-1 ${hasNumber ? 'text-green-500' : 'text-red-500'}}>
+                                <p className={`text-sm mt-1 ${hasNumber ? 'text-green-500' : 'text-red-500'}`}>
                                     {hasNumber ? '✓' : '✗'} La contraseña debe tener al menos un número
                                 </p>
-                                <p className={text-sm mt-1 ${passwordLength ? 'text-green-500' : 'text-red-500'}}>
+                                <p className={`text-sm mt-1 ${passwordLength ? 'text-green-500' : 'text-red-500'}`}>
                                     {passwordLength ? '✓' : '✗'} La contraseña debe tener al menos 8 caracteres
                                 </p>
                             </div>
@@ -214,14 +212,11 @@ const Page: React.FC = () => {
                                     name="password2"
                                     id="password2"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-orange-400 focus:border-orange-400 block w-full p-2.5"
-                                    onChange={(e) => {
-                                        setPasswordVerificar(e.target.value);
-                                        handlePasswordVerifyChange(e);
-                                    }}
+                                    onChange={handlePasswordVerifyChange}
                                     required
                                 />
                                 {hasUpperCase && hasNumber && passwordLength && (
-                                    <p className={text-sm mt-1 ${passwordsMatch ? 'text-green-500' : 'text-red-500'}}>
+                                    <p className={`text-sm mt-1 ${passwordsMatch ? 'text-green-500' : 'text-red-500'}`}>
                                         {passwordsMatch ? '✓ Las contraseñas coinciden' : '✗ Las contraseñas no coinciden'}
                                     </p>
                                 )}
@@ -240,12 +235,9 @@ const Page: React.FC = () => {
                     <div className="fixed bottom-0 left-0 w-full bg-green-500 flex justify-center items-center p-4">
                         <div>
                             <h1 className="text-2xl font-bold text-white">¡Usuario registrado exitosamente!</h1>
-                            <p className="text-white">{Cerrando la página automáticamente en ${contador} segundos}</p>
+                            <p className="text-white">{`Cerrando la página automáticamente en ${contador} segundos`}</p>
                         </div>
                     </div>
-                )}
-                {registroError && (
-                    <div className="text-red-500 text-sm">{registroError}</div>
                 )}
             </div>
         </section>
