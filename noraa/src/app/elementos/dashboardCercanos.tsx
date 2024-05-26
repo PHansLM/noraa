@@ -34,7 +34,7 @@ const DashboardCercanos = ({ centro }: MapPanelProps) => {
     return ( 
         <div className="mt-1 mx-1 bg-white" style={{ height: 'auto', width: '100%', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
             {restaurantesC.slice(0, 8).map((restaurante) => (
-                <a href="#" key={restaurante.id_restaurante} className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 sm:items-start sm:place-items-start" style={{ textDecoration: 'none', margin: '1%', width: '48%', maxWidth: '48%' }}>
+                <a href="paginaRestaurante" key={restaurante.id_restaurante} className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 sm:items-start sm:place-items-start" style={{ textDecoration: 'none', margin: '1%', width: '48%', maxWidth: '48%' }}>
                     {restaurante.imagen && (
                         <ImgConstructor
                             imgBytea={restaurante.imagen}
