@@ -1,6 +1,4 @@
-
 "use client";
-
 import React, { useEffect, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { loggearUsuario } from '../utiles/consultores/usuarios';
@@ -8,28 +6,11 @@ import { loggearUsuario } from '../utiles/consultores/usuarios';
 const Page: React.FC = () => {
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
-
     const [intentoSumbit, setIntentoSumbit] = useState(false);
-
     const [inicioExitoso, setInicioExitoso] = useState(false);
-    const [contador, setContador] = useState(10);
+    const [contador, setContador] = useState(5);
 
-    useEffect(() => {
-        let interval: NodeJS.Timeout;
-        if (inicioExitoso) {
-            interval = setInterval(() => {
-                setContador((prevContador) => prevContador - 1);
-            }, 1000);
-        }
-        return () => clearInterval(interval);
-    }, [inicioExitoso]);
-
-    useEffect(() => {
-        if (contador === 0) {
-            window.close();
-        }
-    }, [contador]);
-
+   
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!correo || !password) {
@@ -46,6 +27,16 @@ const Page: React.FC = () => {
             }
         })
     };
+
+    // Redirige al usuario a la página de inicio después del inicio de sesión exitoso
+    useEffect(() => {
+        if (inicioExitoso) {
+            const timeoutId = setTimeout(() => {
+                window.location.href = '/home'; // Redirige al usuario a la ruta /home
+            }, 2000); // Espera 5 segundos antes de redirigir
+            return () => clearTimeout(timeoutId);
+        }
+    }, [inicioExitoso]);
 
     return (
         <section className="bg-gray-50 bg-cover bg-center" style={{ backgroundImage: "url('fondoLogin.jpg')" }}>
@@ -93,7 +84,7 @@ const Page: React.FC = () => {
                     <div className="fixed bottom-0 left-0 w-full bg-green-500 flex justify-center items-center p-4">
                         <div>
                             <h1 className="text-2xl font-bold text-white">¡Sesión iniciada correctamente!</h1>
-                            <p className="text-white">{`Cerrando la página automáticamente en ${contador} segundos`}</p>
+                            <p className="text-white">{`Redirigiendo...`}</p>
                         </div>
                     </div>
                 )}
@@ -102,4 +93,5 @@ const Page: React.FC = () => {
     );
 }
 
+// Exporta el componente Page
 export default Page;
