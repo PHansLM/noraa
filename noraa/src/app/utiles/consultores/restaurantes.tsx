@@ -44,9 +44,43 @@ export async function cargarRestaurantesConFiltro(filtro: string): Promise<any[]
   }
 }
 
+export async function cargarRestaurantePorId(id: string): Promise<any[]> {
+  try {
+    const response = await fetch(`http://localhost:5000/restaurante-por-id?id_buscado=${id}`);
+    const data = await response.json();
+    console.log(data.nombre_restaurante);
+    return data;
+  } catch (error) {
+    console.error('Error al cargar los restaurantes:', error);
+    throw error; // También puedes lanzar el error para que sea manejado por el llamador de la función
+  }
+}
+
 export async function cargarRestaurantesConEtiqueta(etiqueta: string): Promise<any[]> {
   try {
     const response = await fetch(`http://localhost:5000/restaurantes-por-etiqueta?etiqueta=${etiqueta}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error al cargar los restaurantes:', error);
+    throw error; // También puedes lanzar el error para que sea manejado por el llamador de la función
+  }
+}
+
+export async function cargarMenusDeUnRestaurante(id_restaurante: string): Promise<any[]> {
+  try {
+    const response = await fetch(`http://localhost:5000/menus-por-restaurante?id_restaurante=${id_restaurante}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error al cargar los restaurantes:', error);
+    throw error; // También puedes lanzar el error para que sea manejado por el llamador de la función
+  }
+}
+
+export async function cargarPlatillosPorMenu(id_menu: number): Promise<any[]> {
+  try {
+    const response = await fetch(`http://localhost:5000/platillos-del-menu?id_menu=${id_menu}`);
     const data = await response.json();
     return data;
   } catch (error) {

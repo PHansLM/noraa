@@ -40,6 +40,51 @@ app.get('/platillos-filtrar', async (req, res) => {
     }
 });
 
+app.get('/menus-por-restaurante', async (req, res) => {
+    try {
+        const { id_restaurante} = req.query;
+        if (!id_restaurante) {
+            return res.status(400).json({ error: 'El filtro es requerido' });
+        }
+        const consulta = 'SELECT * FROM "public"."menu" WHERE id_restaurante_fk = '+id_restaurante+';';
+        const resultado = await pool.query(consulta);
+        res.json(resultado.rows);
+    } catch (error) {
+        console.error('Error al obtener los menus', error);
+        res.status(500).json({ error: 'Error al obtener menus' });
+    }
+});
+
+app.get('/platillos-del-menu', async (req, res) => {
+    try {
+        const { id_menu} = req.query;
+        if (!id_menu) {
+            return res.status(400).json({ error: 'El id del menu es requerido' });
+        }
+        const consulta = 'SELECT * FROM "public"."consumible" WHERE id_menu_fk = '+id_menu+';';
+        const resultado = await pool.query(consulta);
+        res.json(resultado.rows);
+    } catch (error) {
+        console.error('Error en los platillos del menu:', error);
+        res.status(500).json({ error: 'Error al obtener platillos' });
+    }
+});
+
+app.get('/platillos-del-menu', async (req, res) => {
+    try {
+        const { id_menu} = req.query;
+        if (!id_menu) {
+            return res.status(400).json({ error: 'El filtro es requerido' });
+        }
+        const consulta = 'SELECT * FROM "public"."consumible" WHERE id_menu_fk = '+id_menu+';';
+        const resultado = await pool.query(consulta);
+        res.json(resultado.rows);
+    } catch (error) {
+        console.error('Error los platillos del menu:', error);
+        res.status(500).json({ error: 'Error al obtener platillos' });
+    }
+});
+
 app.get('/avistamientos', async (req, res) => {
     try {
         const consulta = 'SELECT * FROM "public"."registro_avistamiento"';
@@ -96,6 +141,23 @@ app.get('/restaurantes-filtrar', async (req, res) => {
         }
         const consulta = 'SELECT * FROM "public"."restaurante" WHERE '+filtro+';';
         const resultado = await pool.query(consulta);
+        res.json(resultado.rows);
+    } catch (error) {
+        console.error('Error al obtener restaurantes:', error);
+        res.status(500).json({ error: 'Error al obtener restaurantes' });
+    }
+});
+
+app.get('/restaurante-por-id', async (req, res) => {
+    
+    try {
+        const { id_buscado } = req.query;
+        if (!id_buscado) {
+            return res.status(400).json({ error: 'El id es requerido' });
+        }
+        const consulta = 'SELECT * FROM restaurante WHERE id_restaurante = 57;';
+        const resultado = await pool.query(consulta);
+        console.log(resultado.rowCount+'  jgkkjg');
         res.json(resultado.rows);
     } catch (error) {
         console.error('Error al obtener restaurantes:', error);

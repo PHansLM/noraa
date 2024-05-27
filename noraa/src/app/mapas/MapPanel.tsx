@@ -46,11 +46,7 @@ const MapPanel: React.FC<MapPanelProps> = ({ centro }: MapPanelProps) => {
   return (
     <div onClick={handleMapClick}>
       <div style={{ height: '100vh', width: '100%', position: 'relative' }}>
-        <MapContainer
-          center={centro}
-          zoom={16}
-          minZoom={10}
-          maxZoom={20}
+        <MapContainer center={centro} zoom={16} minZoom={10} maxZoom={20}
           maxBounds={[[-90, -180], [90, 180]]}
           style={{ height: '100%', width: '100%' }}
         >

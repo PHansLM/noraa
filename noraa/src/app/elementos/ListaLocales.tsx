@@ -14,7 +14,13 @@ const StarIcon = () => (
 const ListaLocales: React.FC<{ etiqueta: string }> = ({ etiqueta }) => {
   const [locales, setLocales] = useState<any[]>([]);
 
+  const handleCardClick = (id: string) => {
+    localStorage.setItem('selectedRestaurantId', id);
+    window.location.href = 'paginaRestaurante';  // Redirige a la nueva página
+  };
+
   useEffect(() => {
+    
     if (etiqueta === "") {
       cargarRestaurantes()
         .then(data => {
@@ -34,10 +40,14 @@ const ListaLocales: React.FC<{ etiqueta: string }> = ({ etiqueta }) => {
     }
   }, [etiqueta]);
 
+  
+
   return (
     <div className="mt-1 mx-1 bg-white" style={{ height: 'auto', width: '100%', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
       {locales.map((local) => (
-        <a href="paginaRestaurante" key={local.id_restaurante} className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 sm:items-start sm:place-items-start" style={{ textDecoration: 'none', margin: '1%', width: '48%', maxWidth: '48%' }}>
+        <a href="paginaRestaurante" key={local.id_restaurante} 
+        onClick={() => handleCardClick(local.id_restaurante)} // Attach click event handler
+        className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 sm:items-start sm:place-items-start" style={{ textDecoration: 'none', margin: '1%', width: '48%', maxWidth: '48%' }}>
           {local.imagen && (
             <ImgConstructor
               imgBytea={local.imagen}
