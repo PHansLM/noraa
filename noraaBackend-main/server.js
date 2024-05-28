@@ -139,7 +139,23 @@ app.get('/restaurantes-filtrar', async (req, res) => {
         if (!filtro) {
             return res.status(400).json({ error: 'Los parámetros de filtrado son requeridos' });
         }
-        const consulta = 'SELECT * FROM "public"."restaurante" WHERE '+filtro+';';
+        const consulta = `SELECT id_restaurante FROM "public"."restaurante" WHERE `+filtro+`;`;
+        const resultado = await pool.query(consulta);
+        res.json(resultado.rows);
+    } catch (error) {
+        console.error('Error al obtener restaurantes:', error);
+        res.status(500).json({ error: 'Error al obtener restaurantes' });
+    }
+});
+
+app.get('/restaurantes-correo', async (req, res) => {
+    try {
+        const { correo } = req.query;
+        if (!correo) {
+            return res.status(400).json({ error: 'Los parámetros de filtrado son requeridos' });
+        }
+        const consulta = `SELECT * FROM "public"."restaurante" WHERE correo_electronico = '`+correo+`';`;
+        console.log(consulta);
         const resultado = await pool.query(consulta);
         res.json(resultado.rows);
     } catch (error) {
@@ -155,7 +171,7 @@ app.get('/restaurante-por-id', async (req, res) => {
         if (!id_buscado) {
             return res.status(400).json({ error: 'El id es requerido' });
         }
-        const consulta = 'SELECT * FROM restaurante WHERE id_restaurante = 57;';
+        const consulta = 'SELECT * FROM restaurante WHERE id_restaurante = '+id_buscado+';';
         const resultado = await pool.query(consulta);
         console.log(resultado.rowCount+'  jgkkjg');
         res.json(resultado.rows);
@@ -287,6 +303,30 @@ app.post('/usuario-registrar', async (req, res) => {
     } catch (error) {
         console.error('Error al agregar un nuevo usuario:', error);
         res.status(500).json({ error: 'Error al agregar un nuevo usuario' });
+    }
+});
+
+app.use(express.json({ limit: '10mb' }));
+app.post('/consumible-registrar', async (req, res) => {
+    try {
+        const { nombre, precio, descripcion, menu_fk, imagen, valoracion} = req.body;
+        if (!nombre || !precio || !descripcion || !menu_fk || !imagen) {
+            return res.status(400).json({ error: 'Todos los campos son requeridos' });
+        }
+        // Convertir la imagen base64 a formato de bytes
+        const byteArray = Buffer.from(imagen.split(',')[1], 'base64');
+        console.log('IMAGEN CONVERTIDA');
+        // Consulta para insertar el restaurante
+        const consultaRestaurante = `INSERT INTO consumible (nombre_consumible, precio_consumible, descripcion_consumible, id_menu_fk, foto_consumible, valoracion_consumible) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+
+        // Insertar el restaurante y obtener su ID
+        const resultadoRestaurante = await pool.query(consultaRestaurante, [nombre, precio, descripcion, menu_fk, byteArray, valoracion]);
+        console.log('CONSUMIBLE REGISTRADO');
+
+        res.json({ message: 'Consumible registrado correctamente' });
+    } catch (error) {
+        console.error('Error al agregar un nuevo consumible:', error);
+        res.status(500).json({ error: 'Error al agregar un nuevo consumible' });
     }
 });
 

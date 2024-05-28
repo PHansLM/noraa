@@ -44,6 +44,17 @@ export async function cargarRestaurantesConFiltro(filtro: string): Promise<any[]
   }
 }
 
+export async function cargarRestaurantesPorEmail(email: string): Promise<any[]> {
+  try {
+    const response = await fetch(`http://localhost:5000/restaurantes-correo?correo=${email}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error al cargar los restaurantes:', error);
+    throw error; // También puedes lanzar el error para que sea manejado por el llamador de la función
+  }
+}
+
 export async function cargarRestaurantePorId(id: string): Promise<any[]> {
   try {
     const response = await fetch(`http://localhost:5000/restaurante-por-id?id_buscado=${id}`);
