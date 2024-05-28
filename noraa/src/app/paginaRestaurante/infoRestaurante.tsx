@@ -44,7 +44,6 @@ const InfoRestaurante: React.FC<InfoRestauranteProps> = ({ idRestaurante }) => {
 
   return (
     <div>
-      <h1>Información del Restaurante</h1>
       {restaurante !== null && (
         <div>
           {restaurante.imagen && (
@@ -54,20 +53,17 @@ const InfoRestaurante: React.FC<InfoRestauranteProps> = ({ idRestaurante }) => {
               className="rounded-t-lg h-80 sm:h-auto sm:w-48 sm:rounded-none sm:rounded-l-lg max-w-full"
             />
           )}
-          
-          <p>ID: {idRestaurante}</p>
           <p>Nombre: {restaurante.nombre_restaurante}</p>
           <p>Dirección: {restaurante.direccion}</p>
           <p>Teléfono: {restaurante.telefono}</p>
           <p>Horario de atención: {restaurante.horario_atencion}</p>
           <p>Valoración: {restaurante.valoracion}</p>
           
-          {/* Menús */}
+        
           <div>
-            <h2>MENÚ:</h2>
             {menus.map(menu => (
-              <div key={menu.id_menu}>
-                <h3>Menú {menu.nombre_menu}</h3>
+              <div className = 'mt-5 mb-5'key={menu.id_menu}>
+                <h3 className='font-semibold text-lg mb-5'>{menu.nombre_menu}</h3>
                 <MenuPlatillos idMenu={menu.id_menu} />
               </div>
             ))}

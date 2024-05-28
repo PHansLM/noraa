@@ -22,25 +22,33 @@ const MenuPlatillos: React.FC<MenuPlatillosProps> = ({ idMenu }) => {
   }, [idMenu]);
 
   return (
-    <div>
+    <div className=''>
       {platillos.length > 0 ? (
-        <ul>
+        <ul className="grid md:grid-cols-3 gap-6 items-center">
           {platillos.map(platillo => (
-            <li key={platillo.id_consumible}>
-              <p>Nombre: {platillo.nombre_consumible}</p>
-              <ImgConstructor
-              imgBytea={platillo.foto_consumible}
-              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-              className="rounded-t-lg h-80 sm:h-auto sm:w-48 sm:rounded-none sm:rounded-l-lg max-w-full"
-            />
-              <p>Descripción: {platillo.descripcion_consumible}</p>
-              <p>Precio: {platillo.precio_consumible}</p>
-              <p>Valoracion: {platillo.valoracion_consumible}</p>
+            <li key={platillo.id_consumible} className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col sm:flex-row max-w-md w-full mx-auto transform transition-transform duration-300 hover:bg-gray-100 h-56">
+              <div className="p-4 flex flex-col justify-between w-full sm:w-2/3 h-full">
+                <div className="h-full">
+                  <h3 className="text-xl font-semibold mb-2">{platillo.nombre_consumible}</h3>
+                  <p className="text-gray-700 mb-2 line-clamp-2">{platillo.descripcion_consumible}</p>
+                </div>
+                <div className="h-full flex flex-col justify-end">
+                  <p className="text-yellow-500 mb-2">Valoración: {platillo.valoracion_consumible}</p>
+                  <p className="text-gray-900 font-bold">Bs: {platillo.precio_consumible}</p>
+                </div>
+              </div>
+              <div className="relative w-full sm:w-1/3 h-full">
+                <ImgConstructor
+                  imgBytea={platillo.foto_consumible}
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                  className="w-full h-full object-cover rounded-lg mt-2"
+                />
+              </div>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No hay platillos en este menú.</p>
+        <></>
       )}
     </div>
   );
