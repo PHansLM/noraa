@@ -25,7 +25,7 @@ const PiePagina = () => {
               <div>
                   <ul className="text-white dark:text-gray-400 font-medium">
                       <li className="mb-4">
-                          <a href="registroAvistamiento" target="_blank" className="hover:underline ">Registra un negocio</a>
+                          <a href="pages/platosPage" target="_blank" className="hover:underline ">Registra tus platillos</a>
                       </li>
                       <li>
                            <a href="registroRestaurante" target="_blank" rel="noopener noreferrer" className="hover:underline">Registra tu negocio</a>
