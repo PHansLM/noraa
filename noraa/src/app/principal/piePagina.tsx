@@ -18,7 +18,7 @@ const PiePagina = () => {
                           <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" className="hover:underline">Quienes somos</a>
                       </li>
                       <li>
-                          <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" className="hover:underline">Contactanos</a>
+                           <a href="registroRestaurante" target="_blank" rel="noopener noreferrer" className="hover:underline">Registra tu negocio</a>
                       </li>
                   </ul>
               </div>
@@ -28,7 +28,7 @@ const PiePagina = () => {
                           <a href="pages/platosPage" target="_blank" className="hover:underline ">Registra tus platillos</a>
                       </li>
                       <li>
-                           <a href="registroRestaurante" target="_blank" rel="noopener noreferrer" className="hover:underline">Registra tu negocio</a>
+                           <a href="pages/registroMenu" target="_blank" rel="noopener noreferrer" className="hover:underline">Registra tus menus</a>
                       </li>
                   </ul>
               </div>
