@@ -51,23 +51,24 @@ const InfoRestaurante: React.FC<InfoRestauranteProps> = ({ idRestaurante }) => {
               <ImgConstructor
                 imgBytea={restaurante.imagen}
                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                className="h-80 rounded-xls max-w-full"
+                className="h-80 rounded-xl max-w-full drop-shadow-lg"
               />
             )}
             <div className='flex flex-col mb-9 ml-10'>
               <p className='font-bold text-2xl'>{restaurante.nombre_restaurante}</p>
-              <p>Dirección: {restaurante.direccion}</p>
-              <p>Teléfono: {restaurante.telefono}</p>
-              <p>Horario de atención: {restaurante.horario_atencion}</p>
-              <p>Valoración: {restaurante.valoracion}</p>
+              <p className='font-medium mt-2'>{restaurante.direccion}</p>
+              <p className='font-medium'>Teléfono: {restaurante.telefono}</p>
+              <p className='font-medium'>Horario de atención: {restaurante.horario_atencion}</p>
+              <p className='font-medium'>Valoración: {restaurante.valoracion}</p>
             </div>
 
           </div>
+          <hr className="w-full my-2 border-gray-300" />
 
 
           <div>
             {menus.map(menu => (
-              <div className='mt-5 mb-5' key={menu.id_menu}>
+              <div className='mt-10 mb-5' key={menu.id_menu}>
                 <h3 className='font-semibold text-lg mb-5'>{menu.nombre_menu}</h3>
                 <MenuPlatillos idMenu={menu.id_menu} />
               </div>
