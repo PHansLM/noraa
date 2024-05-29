@@ -155,7 +155,6 @@ app.get('/restaurantes-correo', async (req, res) => {
             return res.status(400).json({ error: 'Los parámetros de filtrado son requeridos' });
         }
         const consulta = `SELECT * FROM "public"."restaurante" WHERE correo_electronico = '`+correo+`';`;
-        console.log(consulta);
         const resultado = await pool.query(consulta);
         res.json(resultado.rows);
     } catch (error) {
@@ -317,10 +316,10 @@ app.post('/consumible-registrar', async (req, res) => {
         const byteArray = Buffer.from(imagen.split(',')[1], 'base64');
         console.log('IMAGEN CONVERTIDA');
         // Consulta para insertar el restaurante
-        const consultaRestaurante = `INSERT INTO consumible (nombre_consumible, precio_consumible, descripcion_consumible, id_menu_fk, foto_consumible, valoracion_consumible) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+        const consulta = `INSERT INTO consumible (nombre_consumible, precio_consumible, descripcion_consumible, id_menu_fk, foto_consumible, valoracion_consumible) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
 
         // Insertar el restaurante y obtener su ID
-        const resultadoRestaurante = await pool.query(consultaRestaurante, [nombre, precio, descripcion, menu_fk, byteArray, valoracion]);
+        const resultado = await pool.query(consulta, [nombre, precio, descripcion, menu_fk, byteArray, valoracion]);
         console.log('CONSUMIBLE REGISTRADO');
 
         res.json({ message: 'Consumible registrado correctamente' });
@@ -330,6 +329,25 @@ app.post('/consumible-registrar', async (req, res) => {
     }
 });
 
+app.post('/menu-registrar', async (req, res) => {
+    try {
+        const { nombre, vigencia, restaurante_fk} = req.body;
+        console.log('REGISTRANDO');
+        console.log(nombre+' '+vigencia+" "+restaurante_fk);
+        if (!nombre || !vigencia || !restaurante_fk) {
+            
+            return res.status(400).json({ error: 'Todos los campos son requeridos' });
+        }
+        const consulta = `INSERT INTO menu (nombre_menu, vigente, id_restaurante_fk) VALUES ($1, $2, $3) RETURNING *`;
+        
+        const resultadoMenu = await pool.query(consulta, [nombre,vigencia,restaurante_fk]);
+
+        res.json({ message: 'Menu registrado correctamente' });
+    } catch (error) {
+        console.error('Error al agregar un nuevo menu:', error);
+        res.status(500).json({ error: 'Error al agregar un nuevo menu' });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Servidor backend iniciado en el puerto ${PORT}`);

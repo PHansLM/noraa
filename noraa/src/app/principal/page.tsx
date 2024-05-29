@@ -6,7 +6,9 @@ import PiePagina from './piePagina'
 
 const Page = () => {
   return (
+    
     <div className="overflow-hidden">
+      
       <Header />
       <Body />
       <PiePagina />

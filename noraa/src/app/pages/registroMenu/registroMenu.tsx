@@ -4,21 +4,13 @@ import React, { useEffect, useState } from 'react';
 
 const registroMenu: React.FC = () => {
     const [nombre, setNombre] = useState('');
-    const [imagen, setImagen] = useState<string>('');
     const [intentoSumbit, setIntentoSumbit] = useState(false);
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [registroExitoso, setRegistroExitoso] = useState(false);
     const [registroFinalizado, setRegistroFinalizado] = useState(false);
     const [contador, setContador] = useState(10);
     const [email, setEmail] = useState('');
-    const [selectedMenu, setSelectedMenu] = useState('');
     const [restauranteEncontrado, setRestauranteEncontrado] = useState(false);
-    const [precio, setPrecio] = useState('');
-    const [descripcion, setDescripcion] = useState('');
-    const [restaurante, setRestaurante] = useState<any>(null);
-    const [menus, setMenus] = useState<any[]>([]);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+    const [restauranteFk, setRestauranteFk] = useState<number | null>(null); 
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
@@ -46,36 +38,17 @@ const registroMenu: React.FC = () => {
         try {
             const data = await cargarRestaurantesPorEmail(email);
             if (data && data.length > 0) {
-                const restauranteEncontrado = data[0];
-                //setRestaurante(restauranteEncontrado);
-                const menusData = await cargarMenusDeUnRestaurante(restauranteEncontrado.id_restaurante);
-                setMenus(menusData);
+                setRestauranteFk(data[0].id_restaurante);
+                console.log(data[0].id_restaurante);
+                console.log(restauranteFk);
                 setRestauranteEncontrado(true);
             } else {
                 console.error('No hay restaurantes con ese correo');
-                setRestaurante(null);
                 setRestauranteEncontrado(false);
             }
         } catch (error) {
             console.error('Error al buscar el restaurante:', error);
             setRestauranteEncontrado(false);
-        }
-    };
-
-    const handleFileUpload = (files: FileList | null) => {
-        if (files && files.length > 0) {
-            const file = files[0];
-            const reader = new FileReader();
-            setSelectedFile(file);
-            reader.onload = (event) => {
-                if (event.target) {
-                    const fileContent = event.target.result as string; // Contenido del archivo en formato base64
-                    setImagen(fileContent); // Almacena la imagen como base64 en lugar de un array de bytes
-
-                    // Ahora puedes enviar la imagen base64 al backend
-                }
-            };
-            reader.readAsDataURL(file);
         }
     };
 
@@ -85,56 +58,43 @@ const registroMenu: React.FC = () => {
     }
 
 
-    const handleRegistroPlatillo = async (event: React.FormEvent) => {
+    const handleRegistroMenu= async (event: React.FormEvent) => {
 
         event.preventDefault();
-        console.log(selectedMenu);
-        const menu_fk = (selectedMenu);
-        if (!nombre || !descripcion || !precio || !imagen) {
-            console.log(nombre);
+        if (!nombre) {
             setIntentoSumbit(true);
             return;
         }
-        console.log(nombre);
+        console.log(restauranteFk);
         try {
-            const response = await fetch('http://localhost:5000/consumible-registrar', {
+            const response = await fetch('http://localhost:5000/menu-registrar', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     nombre: nombre,
-                    precio: precio,
-                    descripcion: descripcion,
-                    menu_fk: menu_fk,
-                    imagen: imagen,
-                    valoracion: 0.0
+                    vigencia: 1,
+                    restaurante_fk: restauranteFk
                 })
             });
             if (response.ok) {
-                console.log('Restaurante registrado exitosamente');
+                console.log('Menu registrado exitosamente');
                 setRegistroExitoso(true);
                 playSuccessSound();
                 limpiarCampos();
             } else {
-                console.error('Error al registrar el restaurante:', response.statusText);
+                console.error('No se pudo registrar el menu:', response.statusText);
             }
         } catch (error) {
-            console.error('Error al registrar el restaurante:', error);
+            console.error('Error al registrar el menu:', error);
         }
     };
 
     const limpiarCampos = () => {
         setNombre('');
-        setImagen('');
-        setSelectedFile(null);
-        setPrecio('');
-        setDescripcion('');
-        setSelectedMenu('');
 
         document.getElementById("nombre")?.setAttribute("value", "");
-        document.getElementById("precio")?.setAttribute("value", "");
-        document.getElementById("descripcion")?.setAttribute("value", "");
         setRegistroExitoso(false);
     };
 
@@ -222,7 +182,7 @@ const registroMenu: React.FC = () => {
                                 <button
                                     className="text-white tracking-wide font-semibold bg-orange-400 text-white-500 w-40 py-4 rounded-xl hover:bg-orange-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                                     type="button"
-                                    onClick={handleRegistroPlatillo}
+                                    onClick={handleRegistroMenu}
                                 >
                                     <span className="ml-2">Registrar Menu</span>
                                 </button>

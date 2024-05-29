@@ -3,6 +3,7 @@ import RegistroPlatos from "./registroPlatos";
 const Page = () => {
     return(
         <div>
+            
             <RegistroPlatos></RegistroPlatos>
         </div>
     );
