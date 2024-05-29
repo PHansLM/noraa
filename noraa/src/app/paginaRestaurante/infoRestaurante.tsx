@@ -46,23 +46,28 @@ const InfoRestaurante: React.FC<InfoRestauranteProps> = ({ idRestaurante }) => {
     <div>
       {restaurante !== null && (
         <div>
-          {restaurante.imagen && (
-            <ImgConstructor
-              imgBytea={restaurante.imagen}
-              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-              className="rounded-t-lg h-80 sm:h-auto sm:w-48 sm:rounded-none sm:rounded-l-lg max-w-full"
-            />
-          )}
-          <p>Nombre: {restaurante.nombre_restaurante}</p>
-          <p>Dirección: {restaurante.direccion}</p>
-          <p>Teléfono: {restaurante.telefono}</p>
-          <p>Horario de atención: {restaurante.horario_atencion}</p>
-          <p>Valoración: {restaurante.valoracion}</p>
-          
-        
+          <div className='flex flex-row items-start'>
+            {restaurante.imagen && (
+              <ImgConstructor
+                imgBytea={restaurante.imagen}
+                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                className="h-80 rounded-xls max-w-full"
+              />
+            )}
+            <div className='flex flex-col mb-9 ml-10'>
+              <p className='font-bold text-2xl'>{restaurante.nombre_restaurante}</p>
+              <p>Dirección: {restaurante.direccion}</p>
+              <p>Teléfono: {restaurante.telefono}</p>
+              <p>Horario de atención: {restaurante.horario_atencion}</p>
+              <p>Valoración: {restaurante.valoracion}</p>
+            </div>
+
+          </div>
+
+
           <div>
             {menus.map(menu => (
-              <div className = 'mt-5 mb-5'key={menu.id_menu}>
+              <div className='mt-5 mb-5' key={menu.id_menu}>
                 <h3 className='font-semibold text-lg mb-5'>{menu.nombre_menu}</h3>
                 <MenuPlatillos idMenu={menu.id_menu} />
               </div>
