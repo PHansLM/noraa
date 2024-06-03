@@ -92,6 +92,7 @@ const RegistroRestaurante: React.FC = () => {
                 },
                 body: JSON.stringify({
                     nombre_restaurante: nombre,
+                    email: correo,
                     direccion: direccion,
                     telefono: telefono,
                     horario_atencion: `${horaEntrada}-${horaSalida}`,

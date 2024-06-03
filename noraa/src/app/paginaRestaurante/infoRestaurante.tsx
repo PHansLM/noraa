@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { cargarRestaurantePorId, cargarMenusDeUnRestaurante } from '../utiles/consultores/restaurantes';
 import ImgConstructor from '../utiles/multimedia/ImgConstructor';
 import MenuPlatillos from './MenuPlatillos'; // Asegúrate de ajustar la ruta según la estructura de tu proyecto
+import Mapa from '../mapas/Mapa';
 
 interface InfoRestauranteProps {
   idRestaurante: string;
@@ -65,7 +66,9 @@ const InfoRestaurante: React.FC<InfoRestauranteProps> = ({ idRestaurante }) => {
           </div>
           <hr className="w-full my-2 border-gray-300" />
 
-
+          <div>
+            
+          </div>
           <div>
             {menus.map(menu => (
               <div className='mt-10 mb-5' key={menu.id_menu}>

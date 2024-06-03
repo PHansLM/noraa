@@ -236,8 +236,8 @@ app.get('/restaurantes-cercanos-limitados', async (req, res) => {
 app.use(express.json({ limit: '10mb' }));
 app.post('/restaurantes-registrar', async (req, res) => {
     try {
-        const { nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, icono_base, imagen, etiquetas } = req.body;
-        if (!nombre_restaurante || !direccion || !telefono || !horario_atencion || !coordenada_longitud || !coordenada_latitud || !icono_base || !imagen) {
+        const { nombre_restaurante, email, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, icono_base, imagen, etiquetas } = req.body;
+        if (!nombre_restaurante || !email || !direccion || !telefono || !horario_atencion || !coordenada_longitud || !coordenada_latitud || !icono_base || !imagen) {
             return res.status(400).json({ error: 'Todos los campos son requeridos' });
         }
 
@@ -245,10 +245,10 @@ app.post('/restaurantes-registrar', async (req, res) => {
         const byteArray = Buffer.from(imagen.split(',')[1], 'base64');
         console.log('IMAGEN CONVERTIDA');
         // Consulta para insertar el restaurante
-        const consultaRestaurante = `INSERT INTO restaurante (nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, imagen, icono_base) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`;
+        const consultaRestaurante = `INSERT INTO restaurante (nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, imagen, icono_base, correo_electronico) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`;
 
         // Insertar el restaurante y obtener su ID
-        const resultadoRestaurante = await pool.query(consultaRestaurante, [nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, byteArray, icono_base]);
+        const resultadoRestaurante = await pool.query(consultaRestaurante, [nombre_restaurante, direccion, telefono, horario_atencion, coordenada_longitud, coordenada_latitud, valoracion, byteArray, icono_base, email]);
         console.log('RESTAURANTE REGISTRADO');
         const idRestaurante = resultadoRestaurante.rows[0].id_restaurante;
 
