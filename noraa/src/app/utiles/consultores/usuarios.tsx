@@ -1,6 +1,6 @@
 export async function loggearUsuario(correo: string, contrasena: string): Promise<any[]> {
     try {
-      const response = await fetch(`http://localhost:5000/loggeo-usuario?correo=${correo}&password=${contrasena}`);
+      const response = await fetch(`https://noraa-backend-6v2teu43ta-tl.a.run.app/loggeo-usuario?correo=${correo}&password=${contrasena}`);
       const data = await response.json();
       return data;
     } catch (error) {

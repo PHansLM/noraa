@@ -1,0 +1,8 @@
+version: '3'
+services:
+  backend:
+    build: ./noraaBackend-main
+    ports:
+      - "5000:5000"
+    environment:
+      - CONNECTION_STRING="postgres://ubjh05nsm7foch:p0797c3dcee4ff8cad5d61099a8daf05b4aa40593bb597306f04f44c3cf0027e2@ce1r1ldap2qd4b.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d42c9or8u69837"

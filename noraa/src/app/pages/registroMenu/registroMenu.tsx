@@ -67,7 +67,7 @@ const registroMenu: React.FC = () => {
         }
         console.log(restauranteFk);
         try {
-            const response = await fetch('http://localhost:5000/menu-registrar', {
+            const response = await fetch('https://noraa-backend-6v2teu43ta-tl.a.run.app/menu-registrar', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'

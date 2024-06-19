@@ -3,12 +3,11 @@ const { Pool  } = require('pg');
 
 const cors = require('cors');
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 
-const connectionString = "postgres://ubjh05nsm7foch:p0797c3dcee4ff8cad5d61099a8daf05b4aa40593bb597306f04f44c3cf0027e2@ce1r1ldap2qd4b.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d42c9or8u69837";
-
+const connectionString = process.env.CONNECTION_STRING || "postgres://ubjh05nsm7foch:p0797c3dcee4ff8cad5d61099a8daf05b4aa40593bb597306f04f44c3cf0027e2@ce1r1ldap2qd4b.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d42c9or8u69837";
 const pool = new Pool({
     connectionString: connectionString,
     ssl: {
