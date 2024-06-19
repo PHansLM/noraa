@@ -5,6 +5,7 @@ import L from 'leaflet';
 import { cargarRestaurantes } from '../utiles/consultores/restaurantes';
 import { cargarAvistamientos } from '../utiles/consultores/avistamientos';
 import ImgConstructor from '../utiles/multimedia/ImgConstructor';
+import { useRouter } from 'next/navigation';  
 
 const StarIcon = () => (
   <span className="ml-1 sm:ml-2">
@@ -23,10 +24,12 @@ const MapPanel: React.FC<MapPanelProps> = ({ centro }: MapPanelProps) => {
   const [avistamientos, setAvistamientos] = useState<any[]>([]);
   const [restauranteSeleccionado, setRestauranteSeleccionado] = useState<any>(null);
   const [showDetail, setShowDetail] = useState(false);
+  const router = useRouter();
+
 
   const handleCardClick = (id: string) => {
     localStorage.setItem('selectedRestaurantId', id);
-    window.location.href = 'paginaRestaurante';  // Redirige a la nueva página
+    router.push('/paginaRestaurante'); // Redirige usando next/router
   };
 
   useEffect(() => {
