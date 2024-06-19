@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import ImgConstructor from "../utiles/multimedia/ImgConstructor";
 import { cargarRestaurantes, cargarRestaurantesConEtiqueta } from "../utiles/consultores/restaurantes";
 import { useRouter } from 'next/navigation';  // Importa desde 'next/navigation'
-
 interface ListaLocalesProps {
   etiqueta: string;
   onCardClick: (id: string, nombre: string) => void;  // Añade el nombre como argumento
@@ -41,7 +40,7 @@ const ListaLocales: React.FC<ListaLocalesProps> = ({ etiqueta, onCardClick }) =>
 
   const handleCardClick = (id: string, nombre: string) => {
     localStorage.setItem('selectedRestaurantId', id);
-    router.push(`/paginaRestaurante/${encodeURIComponent(nombre)}`);  // Navegar a la nueva ruta con el nombre
+    router.push(`/paginaRestaurante/${encodeURIComponent(nombre)}`);
   };
 
   return (
