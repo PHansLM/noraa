@@ -97,7 +97,7 @@ const RegistroPlatos: React.FC = () => {
         }
         console.log(nombre);
         try {
-            const response = await fetch('http://localhost:5000/consumible-registrar', {
+            const response = await fetch('https://noraa-backend-6v2teu43ta-tl.a.run.app/consumible-registrar', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'

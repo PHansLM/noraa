@@ -2,7 +2,7 @@
 
 export async function cargarAvistamientos(): Promise<any[]> {
   try {
-    const response = await fetch('http://localhost:5000/avistamientos');
+    const response = await fetch('https://noraa-backend-6v2teu43ta-tl.a.run.app/avistamientos');
     const data = await response.json();
     return data;
   } catch (error) {

@@ -51,7 +51,7 @@ const Page: React.FC = () => {
             return;
         }
         try {
-            const response = await fetch('http://localhost:5000/usuario-registrar', {
+            const response = await fetch('https://noraa-backend-6v2teu43ta-tl.a.run.app/usuario-registrar', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
