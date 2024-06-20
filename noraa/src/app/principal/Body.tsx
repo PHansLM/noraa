@@ -1,13 +1,16 @@
 "use client";
-import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import MapPanel from '../mapas/MapPanel';
+import { useRouter } from 'next/navigation';  
 import useUserLocation from '../utiles/geolocalizadores/useUserLocation';
-import Geocoder from '../utiles/geolocalizadores/Geocoder';
+import useGeocoder from '../utiles/geolocalizadores/Geocoder';
 import Carrusel from '../carrusel';
 import PiePagina from './piePagina';
-import useGeocoder from '../utiles/geolocalizadores/Geocoder';
 import DashboardCercanos from '../elementos/dashboardCercanos';
+
+// Cargar MapPanel dinámicamente sólo en el cliente
+const DynamicMapPanel = dynamic(() => import('../mapas/MapPanel'), { ssr: false });
 
 const Body = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -22,6 +25,8 @@ const Body = () => {
     const closeModal = () => {
         setModalIsOpen(false);
     };
+
+    const router = useRouter();
 
     return (
         <>
@@ -61,13 +66,13 @@ const Body = () => {
                 }}
             >
                 <button 
-                            className="mb-3 mr-4 accept-button mt-0 tracking-wide font-semibold bg-orange-400 text-white py-3 px-5 rounded-3xl hover:bg-orange-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none" 
-                            style={{ position: 'absolute', bottom: '20px', right: '10px', zIndex: '1100' }} 
-                            onClick={closeModal}
-                            >
-                            Volver
-                            </button>
-                <MapPanel centro={[(userLocationLat != null) ? userLocationLat : 0.0, (userLocationLng != null) ? userLocationLng : 0.0]} />
+                    className="mb-3 mr-4 accept-button mt-0 tracking-wide font-semibold bg-orange-400 text-white py-3 px-5 rounded-3xl hover:bg-orange-500 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none" 
+                    style={{ position: 'absolute', bottom: '20px', right: '10px', zIndex: '1100' }} 
+                    onClick={closeModal}
+                >
+                    Volver
+                </button>
+                <DynamicMapPanel centro={[userLocationLat ?? 0, userLocationLng ?? 0]} />
             </Modal>
 
             <div className="lg:w-full">
